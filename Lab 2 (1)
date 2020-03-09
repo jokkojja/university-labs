@@ -1,0 +1,106 @@
+#include <iostream>
+#include <math.h>
+using namespace std;
+
+int FindMin(int** X, int size)
+{
+	int min = INT_MAX;
+	for (int i = 0; i < size - 1; i++)
+	{
+		for (int j = i + 1; j < size; j++)
+		{
+			if (X[i][j] > 0) {
+				if (X[i][j] < min)
+					min = X[i][j];
+			}
+		}
+	}
+	cout << min<<"\n";
+	return min;
+}
+
+
+int main()
+{
+	int rows, cols, a, b;
+	cout << "Enter left border = ";
+	cin >> a;
+	cout << "Enter right border = ";          // Левая и правая граница значений в матрице
+	cin >> b;
+	
+
+
+	while (a == b || b < a) {
+		cout << "Incorrect data\n";
+		cout << "Enter left border a= ";
+		cin >> a;
+		cout << "Enter right border b= ";      // Условие существования границ
+		cin >> b;
+	}
+
+
+	cout << "Enter number of rows=";
+	  cin >> rows;
+	  cout << "\n";
+	  cols = rows;                        //Колличество столбиков в матрице
+
+	  system("pause");
+	  
+	  int **arr = new int* [rows];
+	for (int i = 0; i < rows; i++) {
+		arr[i] = new int[cols];
+	}
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			arr[i][j] =a+rand() % (b-a+1);     //Массив заполняется числами и получается матрица
+			cout << arr[i][j] << "\t";
+			
+		}
+
+		
+		cout << endl;
+	}
+	system("pause");
+
+
+
+	cout << "Elements above the main diagonal:\n";
+	for (int i = 0; i < rows; i++) {
+		for (int j = i + 1; j < rows; j++) {      //Вывод элементов выше главной диагонали
+			cout<< arr[i][j]<<"\n";
+		}
+		}
+	system("pause");
+	cout << "The minimum positive element:";
+	FindMin(arr, rows); //Вывод минимального положительного числа выше гланой диагонали
+	system("pause");
+
+	delete[] arr;	
+		
+	
+	}
+/*#include <iostream>
+#define N 10
+using namespace std;
+
+nt main()
+{
+	int A[N][N], i, j;
+
+	for (i = 0; i < N; i++)
+		for (j = 0; j < N; j++)
+			A[i][j] = 0;
+
+	for (i = 0; i < N; i++)
+		A[i][N - i - 1] = i + 1;
+
+	for (i = 0; i < N; i++)
+	{
+		for (j = 0; j < N; j++)
+			cout << A[i][j] << "  ";
+		cout << "\n";
+	}
+
+	cin.get();
+	return 0;
+}*/
