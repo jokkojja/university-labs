@@ -190,19 +190,19 @@ int main()
 			cout << endl;
 		}
 	}
-	else if(max >= 0) 
+	else if(max >= 0 || max == a) 
 	{
 
 		cout << "No negative elements  under the main diagonal and above the collateral diagonal, change data.";
 
 	}
-	else if (min <= 0) 
+	else if (min <= 0|| min == INT_MAX) 
 	{
 
 
 		cout << "No positive elements above the main diagonale, change data.";
 	}
-	else 
+	else
 	{
 
 		cout << "No negative elements  under the main diagonal and above the collateral diagonal and No positive elements above the main diagonale.";
@@ -210,4 +210,3 @@ int main()
 
 	delete[] arr;
 	}
-	//Дописать условие для вывода новой матрицы 
