@@ -1,0 +1,321 @@
+#include <iostream>
+#include <conio.h>
+#include <random>
+#include <time.h>
+
+using namespace::std;
+
+char name1[30]; // Имя 1ого игрока
+char name2[4] = "BOT"; // Имя 2ого игрока
+char table[3][3]; // Поле 3x3
+bool step; // Определение кто ходит
+int numb = 0;
+
+void writetable() // Заполнение поля
+{
+	int l = 0;
+
+	for (int i(0); i < 3; i++)
+	{
+		for (int j(0); j < 3; j++)
+		{
+			table[i][j] = char(49 + l);
+			l++;
+		}
+	}
+	cout << "Нажмите любую клавишу для начала игры!";
+}
+
+bool player() // Тело игры
+{
+	for (int i(0); i < 3; i++) //Вывод поля
+	{
+		for (int j(0); j < 3; j++)
+		{
+			cout << "|" << table[i][j] << " ";
+		}
+		cout << "|";
+		cout << endl;
+	}
+	cout << endl;
+
+	cout << "Ходит " << name1 << " : ";
+
+	int n;
+	cin >> n; // Ввод числа, которое отвечает в какую ячейку занести крестик или нолик
+
+	if (n < 1 || n>9)
+		return false;
+
+	int i, j;
+
+	if (n % 3 == 0)
+	{
+		i = (n / 3) - 1;
+		j = 2;
+	}
+	else
+	{
+		j = (n % 3) - 1;
+		i = n / 3;
+	}
+
+	if (table[i][j] == 'O' || table[i][j] == 'X')
+		return false;
+
+	table[i][j] = 'X';
+	numb++;
+	step = false;
+
+	return true;
+
+}
+
+bool bot() // Бот
+{
+	if (numb < 9)
+	{
+		for (int i(0); i < 3; i++)
+		{
+			if ((table[i][0] == 'X' || table[i][0] == 'O') && (table[i][1] == 'X' || table[i][1] == 'O'))
+			{
+				if (table[i][2] != 'X' && table[i][2] != 'O')
+				{
+					table[i][2] = 'O';
+					numb++;
+					step = true;
+					return true;
+				}
+			}
+			if ((table[i][1] == 'X' || table[i][1] == 'O') && (table[i][2] == 'X' || table[i][2] == 'O'))
+			{
+				if (table[i][0] != 'X' && table[i][0] != 'O')
+				{
+					table[i][0] = 'O';
+					numb++;
+					step = true;
+					return true;
+				}
+			}
+			if ((table[i][0] == 'X' || table[i][0] == 'O') && (table[i][2] == 'X' || table[i][2] == 'O'))
+			{
+				if (table[i][1] != 'X' && table[i][1] != 'O')
+				{
+					table[i][1] = 'O';
+					numb++;
+					step = true;
+					return true;
+				}
+			}
+
+			//
+			if ((table[0][i] == 'X' || table[0][i] == 'O') && (table[1][i] == 'X' || table[1][i] == 'O'))
+			{
+				if (table[2][i] != 'X' && table[2][i] != 'O')
+				{
+					table[2][i] = 'O';
+					numb++;
+					step = true;
+					return true;
+				}
+			}
+			if ((table[1][i] == 'X' || table[1][i] == 'O') && (table[2][i] == 'X' || table[2][i] == 'O'))
+			{
+				if (table[0][i] != 'X' && table[0][i] != 'O')
+				{
+					table[0][i] = 'O';
+					numb++;
+					step = true;
+					return true;
+				}
+			}
+			if ((table[0][i] == 'X' || table[0][i] == 'O') && (table[2][i] == 'X' || table[2][i] == 'O'))
+			{
+				if (table[1][i] != 'X' && table[1][i] != 'O')
+				{
+					table[1][i] = 'O';
+					numb++;
+					step = true;
+					return true;
+				}
+			}
+		}
+
+		//
+		if ((table[0][0] == 'X' || table[0][0] == 'O') && (table[1][1] == 'X' || table[1][1] == 'O'))
+		{
+			if (table[2][2] != 'X' && table[2][2] != 'O')
+			{
+				table[2][2] = 'O';
+				numb++;
+				step = true;
+				return true;
+			}
+		}
+
+		if ((table[0][0] == 'X' || table[0][0] == 'O') && (table[2][2] == 'X' || table[2][2] == 'O'))
+		{
+			if (table[1][1] != 'X' && table[1][1] != 'O')
+			{
+				table[1][1] = 'O';
+				numb++;
+				step = true;
+				return true;
+			}
+		}
+
+		if ((table[1][1] == 'X' || table[1][1] == 'O') && (table[2][2] == 'X' || table[2][2] == 'O'))
+		{
+			if (table[0][0] != 'X' && table[0][0] != 'O')
+			{
+				table[0][0] = 'O';
+				numb++;
+				step = true;
+				return true;
+			}
+		}
+
+		//
+
+		if ((table[0][2] == 'X' || table[0][2] == 'O') && (table[1][1] == 'X' || table[1][1] == 'O'))
+		{
+			if (table[2][0] != 'X' && table[2][0] != 'O')
+			{
+				table[2][0] = 'O';
+				numb++;
+				step = true;
+				return true;
+			}
+
+		}
+
+		if ((table[0][2] == 'X' || table[0][2] == 'O') && (table[2][0] == 'X' || table[2][0] == 'O'))
+		{
+			if (table[1][1] != 'X' && table[1][1] != 'O')
+			{
+				table[1][1] = 'O';
+				numb++;
+				step = true;
+				return true;
+			}
+		}
+		if ((table[2][0] == 'X' || table[2][0] == 'O') && (table[1][1] == 'X' || table[1][1] == 'O'))
+		{
+			if (table[0][2] != 'X' && table[0][2] != 'O')
+			{
+				table[0][2] = 'O';
+				numb++;
+				step = true;
+				return true;
+			}
+		}
+
+		int n = 1;
+		int m = 0, j = 0;
+
+		n = rand() % 10;
+
+		if (n % 3 == 0)
+		{
+			m = (n / 3) - 1;
+			j = 2;
+		}
+		else
+		{
+			m = n / 3;
+			j = (n % 3) - 1;
+		}
+
+		if ((table[m][j] == 'O') || (table[m][j] == 'X'))
+			return false;
+		else
+		{
+			table[m][j] = 'O';
+			numb++;
+			step = true;
+			return true;
+		}
+	}
+}
+
+
+void wins()
+{
+	system("cls");
+	if (step)
+		cout << "Победил " << name2 << endl;
+	else cout << "Победил " << name1 << endl;
+}
+
+void draw()
+{
+	system("cls");
+	cout << "Ничья!";
+}
+
+bool win() // Определение победы
+{
+	for (int i(0); i < 3; i++)
+		if ((table[i][0] == table[i][1]) && (table[i][0] == table[i][2]))
+		{
+			wins();
+			return true;
+		}
+		else
+			if ((table[0][i] == table[1][i]) && (table[0][i] == table[2][i]))
+			{
+				wins();
+				return true;
+			}
+			else if (((table[0][0] == table[1][1]) && (table[0][0] == table[2][2])) || ((table[0][2] == table[1][1]) && (table[0][2] == table[2][0])))
+			{
+				wins();
+				return true;
+			}
+			else if (numb == 9)
+			{
+				draw();
+				return true;
+			}
+	return false;
+}
+
+
+int main()
+{
+	setlocale(0, "Russian");
+	writetable();
+	_getch();
+	system("cls");
+
+	cout << "Введите имя 1ого игрока : ";
+	cin >> name1;
+
+
+	srand(time(NULL));
+	if (rand() & 1)
+		step = true;
+	else step = false;
+
+	while (!win())
+	{
+		system("cls");
+		if (step)
+		{
+			if (!player())
+			{
+				cout << "Допущена ошибка!";
+				_getch();
+			}
+		}
+		else
+		{
+			while (!bot());
+		}
+	}
+
+
+	_getch();
+	return 0;
+
+}
