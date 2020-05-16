@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <string.h>
+#include <cstdio>
+#include <iostream>
+
+ int  main()  //реализована сортировка введенной строки, для большей уникальности
+ {
+    using namespace std;
+    char String[30000];
+    int Words[15000];
+    int Number;
+    int i, j, Temp;
+    int Flag; 
+    setlocale(LC_ALL, "");
+    cout<<("Введите строку >\n");
+    gets_s(String);
+
+    /* Предварительная обработка */
+    for (Number = 0, Flag = 1, i = 0; String[i]; i++)
+    {
+        /* Все пробелы заменяем на символ конца строки */
+        if (String[i] == ' ')
+        {
+            String[i] = 0;
+            Flag = 1;
+        }
+        /* Позиции первых после пробелов символов записываем в массив */
+        else if (Flag)
+        {
+            Words[Number++] = i;
+            Flag = 0;
+        }
+    }
+
+    /* Сортировка */
+    for (j = Number - 1; j > 0; j--)
+        for (i = 0; i < j; i++)
+            if (strcmp(&String[Words[i]], &String[Words[i + 1]]) > 0)
+            {
+                Temp = Words[i];
+                Words[i] = Words[i + 1];
+                Words[i + 1] = Temp;
+            }
+
+    /* Вывод результата */
+    for (i = 0; i < Number; i++)
+        cout<<&String[Words[i]]<< "\n";
+} //все знаки знаки препинания выводятся всегла первыми
