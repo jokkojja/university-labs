@@ -1,0 +1,67 @@
+#include <iostream>
+using namespace std;
+// Функция преобразования строки в число
+int StrToInt(char* s)
+{
+    int temp = 0; // число
+    int i = 0;
+    int sign = 0; // знак числа 0- положительное, 1 — отрицательное
+    if (s[i] == '-')
+    {
+        sign = 1;
+        i++;
+    }
+    while (s[i] >= 0x30 && s[i] <= 0x39)
+    {
+        temp = temp * 10;
+        temp = temp + (s[i] & 0x0F);
+        i++;
+    }
+    if (sign == 1)
+        temp = -temp;
+    return(temp);
+}
+
+
+//проверка введенных данных
+bool CheckInt(char* str)
+{
+    int symbols = 0;
+    int digits = 0;
+
+    while (*str != 0)
+    {
+        symbols++;
+        if (isdigit(*str++))
+            digits++;
+    }
+    if (symbols == digits)
+        return true;
+    else
+        return false;
+}
+
+// Проверка выполнения
+int main()
+{
+    int num;
+    char s[40], * n;
+    system("chcp 1251");
+    system("cls");
+    cout << "Введите число: ";
+    cin.getline(s, 80);//80 - максимально количество символов, которое может быть записано в строку
+    while (!CheckInt(s))
+    {
+        cout << "Ошибка. Ввод некорректных данных. Введите целое число:\n";
+        cin.getline(s, 80);
+        
+    }
+    num = StrToInt(s);
+    cout << "Вы ввели число " << num;
+    cin.get();
+    return 0;
+}
+/*Для получения цифры, соответствующей символу, достаточно произвести операцию:
+n = s & 0x0F;
+где n — значащая цифра, s — символ цифры.Маска 0x0F позволяет оставить только младшие 4 значащих разряда.Старшие 4 разряда становятся равны 0.
+*/
