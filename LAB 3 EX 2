@@ -1,0 +1,40 @@
+#include<iostream>
+#include<fstream>
+#include<string>
+#include <cstdio>
+using namespace std;
+
+
+int main()
+{
+	char s;
+	int k = 0;
+	int BL = 0;
+	ifstream file;
+	file.open("E:\\Уник Программ\\2 сем\\STROKI LAB (2)\\text.txt", ios::in);
+	if (!file.is_open()) { cout << "Error: no file\n" << endl; }
+	else
+	{
+		while (file.get(s)&&s!='\n')//s!='\n' - условие окончания строки
+		{
+			if (s == ' ')
+			{
+				k++;
+		    }
+			if (BL != 1)//цикл учитывает первую большую букву в строке.
+			{
+				if (s <= 'Z' && s >= 'A')
+				{
+					BL += 1;
+					k++;
+
+				}
+			}
+			
+		}
+		
+	}
+	cout << "Numbers of words=" << k << "\n";
+	system("pause");
+	return 0;
+}
