@@ -37,12 +37,20 @@ unsigned CountEven(int* numbers, int size)
 
 }
 
+
+
 int main() 
 {
 	int i = 0;
 	int n;
 	cout << "Number of elements in array:";
 	cin >> n;
+	while (!(cin >> n)||n<0)
+	{
+		cin.clear();
+		cin.ignore(cin.rdbuf()->in_avail()); //
+		cout << "ERROR! Enter the positive number:";
+	}
 	int* a = new int[n];
 	RandomFill(a,n);
 	cout<<"The number of even numbers: "<<CountEven(a, n);
