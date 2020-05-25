@@ -1,0 +1,21 @@
+#include<iostream>
+#include<math.h>
+using namespace std;
+
+
+int SumDigit(int n)
+{
+    if (n < 10) return n;
+    else
+        return SumDigit(n / 10) + n % 10;
+}
+
+
+int main()
+{
+    int n;
+    cout << "Enter the number:";
+    cin >> n;
+    cout<< SumDigit(n);
+
+}
