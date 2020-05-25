@@ -16,6 +16,13 @@ int main()
     int n;
     cout << "Enter the number:";
     cin >> n;
+    while (!(cin >> n)||n<0)
+    {
+        cin.clear();
+        cin.ignore(cin.rdbuf()->in_avail()); 
+        cout << "ERROR! Enter the positive number:";
+    }
     cout<< SumDigit(n);
 
 }
+
