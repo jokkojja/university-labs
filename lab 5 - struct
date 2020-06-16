@@ -1,0 +1,156 @@
+#include <algorithm>
+#include <iostream>
+#include <fstream>
+#include <sstream>
+
+using namespace std;
+
+struct BusPark
+{
+	string Name = " ";
+	string SureName = " ";
+	string LastName= " ";
+	short NumberOfBus = 0;
+	short NumberOfRoute = 0;
+	short DurationOfRoute = 0;
+
+};
+
+bool comp (const BusPark &n1, const BusPark &n2)
+{
+	return n1.SureName < n2.SureName;     //компаратор. sort передает элементы компаратору, а компаратор проверяет их по алгоритму и передает true или false.
+}
+
+void Show_All(int size, BusPark* ARRAY);
+void Show_Not_Sidorov(int size, BusPark* ARRAY);
+void Sort_and_Less_Then_12(int size, BusPark* ARRAY);
+void Menu();
+
+
+int main()
+{
+	int size = 0;//размерность массива
+	string s;
+	string x;
+	BusPark r;
+	ifstream file;
+	file.open("buspark.txt");
+	if (!file.is_open())
+	{
+		cout << "Error. Cant find the file.";
+	}
+	else
+	{
+		while (getline(file, s))//записывает данные до сепаратора, по умолячанию "\n"
+		{
+			size++;
+		}
+		
+		file.close();
+		file.open("buspark.txt");
+		BusPark* arr = new BusPark[size];
+		for (int i = 0; i < size; i++)
+		{
+			getline(file, x);
+			istringstream ss(x);// то же самое, что cin, только содержимое берётся не из входного потока программы, а из данной ему строки
+			ss >> r.NumberOfBus >> r.SureName >> r.Name >> r.LastName >> r.NumberOfRoute >> r.DurationOfRoute; //содержимое из строки ss до проблема записывается в переменную r
+			arr[i] = r;
+		}
+		Menu();
+		int choice;
+		cin >> choice;
+		
+			switch (choice)
+			{
+			case 1:
+
+				Show_All(size, arr);
+			
+				break;
+				
+
+			case 2:
+
+				Show_Not_Sidorov(size, arr);
+			
+				break;
+				
+
+			case 3:
+
+				Sort_and_Less_Then_12(size, arr);
+				
+				break;
+				
+
+			case 4:
+				Show_All(size, arr);
+				Show_Not_Sidorov(size, arr);
+				Sort_and_Less_Then_12(size, arr);
+
+				break;
+				
+
+			case 5:
+
+				break;
+			
+		    }
+		
+		file.close();
+	}
+		
+}
+
+void Menu()
+{
+	
+	cout << "Frolov. Variant 8, Lab Structure\n"
+		<< "1. Upload information about all buspark.\n"
+		<< "2. Find routes for which Sidorov does not use.\n"
+		<< "3. Display information about all roads with duration less then 2 hours. Data are sorted by driver's last name.\n"
+		<< "4. Display full exercise.\n"
+		<< "5. Exit\n"
+		<< ">>> ";
+	
+}
+
+void Show_All(int size, BusPark* ARRAY)
+{
+	cout << "Full information about buspark:\n\n";
+	for (int i = 0; i < size; i++)
+	{
+		cout <<"["<<i+1<<"]"<<" "<< ARRAY[i].NumberOfBus << " "
+			<< ARRAY[i].SureName << " " << ARRAY[i].Name << " " << ARRAY[i].LastName << " "
+			<< ARRAY[i].NumberOfRoute << " "
+			<< ARRAY[i].DurationOfRoute << endl;
+	}		
+}
+
+void Show_Not_Sidorov(int size, BusPark* ARRAY)
+{
+	cout << "\nSidorod doesn`t drive on the route number:\n";
+	for (int i = 0; i < size; i++)
+	{
+		if (ARRAY[i].SureName != "Sidorov")
+		{
+			cout << ARRAY[i].NumberOfRoute << endl;
+		}
+	}
+}
+
+void Sort_and_Less_Then_12(int size, BusPark* ARRAY)
+{
+	sort(ARRAY, ARRAY + size, comp); // ARRAY - указывает на первую ячейку массива, ARRAY + size - имя массива + кол-во элементов, которые нужно отсортировать
+	cout << "\nSort information about the duration of road less then 2 hours:\n";
+	for (int i = 0; i < size; i++)
+	{
+		if (ARRAY[i].DurationOfRoute < 120)
+		{
+			cout << ARRAY[i].NumberOfBus << " "
+				<< ARRAY[i].SureName << " " << ARRAY[i].Name << " " << ARRAY[i].LastName << " "
+				<< ARRAY[i].NumberOfRoute << " "
+				<< ARRAY[i].DurationOfRoute << endl;
+		}
+	}
+}
