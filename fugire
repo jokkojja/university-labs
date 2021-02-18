@@ -1,0 +1,196 @@
+#include<iostream>
+#include<math.h>
+
+using namespace std;
+
+class BaseException
+{
+public:
+private:
+  
+};
+
+
+class Figure
+{
+public:
+    Figure() {};
+    ~Figure() {};
+    virtual float CalcArea() = 0;
+    virtual void Show() = 0;
+    virtual Figure* Copy() = 0;
+};
+
+
+class Rectangle : public Figure
+{
+public:
+    Rectangle(float la, float lb) :
+        a(la), b(lb) {}
+    void Show();
+    Figure* Copy();
+    float CalcArea()
+    {
+        return a * b;
+    }
+
+protected:
+    float a;
+    float b;
+};
+
+Figure* Rectangle::Copy()
+{
+    Figure* ret = new Rectangle(a, b);
+    return ret;
+}
+
+void Rectangle::Show()
+{
+    cout << "Class Rectangle\t";
+}
+
+
+class Circle : public Figure
+{
+protected:
+    float r;
+
+public:
+    Circle(float lr) : r(lr) {}
+    ~Circle(){}
+    Figure* Copy();
+    float CalcArea()  { return 3.14 * r * r; }
+    virtual void Show();
+
+
+};
+Figure* Circle::Copy()
+{
+    Figure* ret = new Circle(r);
+    return ret;
+}
+
+void Circle::Show()
+{
+    cout << "Class Circle\t";
+}
+
+class Trapezium : public Figure
+{
+public:
+    Trapezium(float lc, float ld, float lf): 
+        c(lc), d(ld), f(lf) {}
+    virtual void Show();
+    Figure* Copy();
+    float CalcArea()
+    {
+        return (c / 2 + d / 2) * f;
+    }
+
+protected:
+    float c;
+    float d;
+    float f;
+};
+
+Figure* Trapezium::Copy()
+{
+    Figure* ret = new Trapezium(c, d, f);
+    return ret;
+}
+void Trapezium::Show()
+{
+    cout << "Class Trapezium\t";
+}
+
+class Cylinder
+{
+    Figure* F;
+    double* H;
+public:
+    Cylinder(Figure*, double);
+    ~Cylinder();
+    double CalcVolume();
+    void show();
+};
+
+Cylinder::Cylinder(Figure* F1, double H1)
+{
+    cout << "Cylinder";
+    F = F1->Copy();
+    H = new double;
+    *H = H1;
+}
+Cylinder:: ~Cylinder()
+{
+    delete F;
+    delete H;
+}
+double Cylinder::CalcVolume()
+{
+    return F->CalcArea() * *H;
+}
+
+void Cylinder::show()
+{
+    cout << "Cylinder info:" << endl;
+    cout << "\t H = " << *H << endl;
+    cout << "\t Base info:" << endl;
+    F->Show();
+}
+
+int main()
+{
+    int choice;
+    float circle_data, rectangle_data_1, rectangle_data_2, trapezium_data_1, trapezium_data_2, trapezium_data_3;
+    Figure *sp = 0;
+    bool quit = false;
+    cout << "Enter data for Circle: ";
+    cin >> circle_data;
+    cout << "Enter data for Rectangle: ";
+    cin >> rectangle_data_1 >> rectangle_data_2;
+    cout << "Enter data for Trapezium: ";
+    cin >> trapezium_data_1 >> trapezium_data_2 >> trapezium_data_3;
+
+    while (!quit)
+    {
+        cout << "[1] Circle; \n[2] Rectangle; \n[3] Trapezium; \n[0] Quit:\n Your choice: ";
+        cin >> choice;
+        switch (choice)
+        {
+        case 0:
+            quit = true;
+            break;
+
+        case 1:
+            sp = new Circle(circle_data);
+            cout << "Area:" << sp->CalcArea()<< "\n";
+            break;
+
+        case 2:
+            sp = new Rectangle(rectangle_data_1, rectangle_data_2);
+            cout << "Area:" << sp->CalcArea()<< "\n";
+            break;
+
+        case 3:
+            sp = new Trapezium(trapezium_data_1,trapezium_data_2,trapezium_data_3);
+            cout << "Area:" << sp->CalcArea() << "\n";
+            break;
+
+
+        default:
+            cout << "Enter a number between 0 and 4" << endl;
+            continue;
+            break;
+        }
+        sp->Show();
+        Cylinder* Cyl = new Cylinder(sp, 10);
+        Cyl->show();
+        delete sp;
+        cout << "Cylinder volume = " << Cyl->CalcVolume()<< endl;
+        delete Cyl;
+        
+    }
+    return 0;
+}
